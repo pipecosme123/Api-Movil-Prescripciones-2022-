@@ -1,0 +1,31 @@
+{
+  "name": "api_prescripcion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pipecosme123/api_prescripciones_colgate.git"
+  },
+  "author": "Daniel Felipe Cosme",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pipecosme123/api_prescripciones_colgate/issues"
+  },
+  "homepage": "https://github.com/pipecosme123/api_prescripciones_colgate#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "file-system": "^2.2.2",
+    "fs": "^0.0.1-security",
+    "html-pdf": "^3.0.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.20",
+    "qrcode": "^1.5.1"
+  }
+}

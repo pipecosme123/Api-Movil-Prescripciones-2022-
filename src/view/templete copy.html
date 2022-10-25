@@ -1,0 +1,453 @@
+<html>
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+   <link href="//db.onlinewebfonts.com/c/cb051b6f43b7fae342080025a7ca8b75?family=Colgate+Ready" rel="stylesheet"
+      type="text/css" />
+   <style>
+      @font-face {
+         font-family: "Colgate Ready";
+         src: url("//db.onlinewebfonts.com/t/cb051b6f43b7fae342080025a7ca8b75.eot");
+         src: url("//db.onlinewebfonts.com/t/cb051b6f43b7fae342080025a7ca8b75.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/cb051b6f43b7fae342080025a7ca8b75.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/cb051b6f43b7fae342080025a7ca8b75.woff") format("woff"), url("//db.onlinewebfonts.com/t/cb051b6f43b7fae342080025a7ca8b75.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/cb051b6f43b7fae342080025a7ca8b75.svg#Colgate Ready") format("svg");
+      }
+
+      body {
+         margin: 20px;
+         font-family: "Colgate Ready";
+         color: #212121;
+      }
+
+      .titulo {
+         font-size: 30px;
+         font-weight: 900;
+         text-align: center;
+         text-transform: uppercase;
+         color: #d2010d;
+      }
+
+      .seccionQR {
+         width: min-content;
+         padding: 8px;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         border-radius: 8px;
+         background: #d2010d;
+         position: absolute;
+         top: 90px;
+         right: 130px;
+      }
+
+      .seccionQR h3 {
+         margin-top: 0px;
+         margin-bottom: 3px;
+         font-size: 10px;
+         text-align: center;
+         color: #fff;
+         font-weight: 900;
+      }
+
+      .seccionQR img {
+         width: 90px;
+         padding: 8px;
+         border-radius: 8px;
+         background: #fff;
+      }
+
+      .informacionDatos {
+         margin: 8px 0 16px 8px;
+      }
+
+      .item-info {
+         display: flex;
+         align-items: center;
+         margin-bottom: 8px;
+      }
+
+      .item-info p {
+         margin: 0;
+         padding: 4px 8px;
+         background: #eeeeee;
+         border-radius: 8px;
+         font-size: 12px;
+         text-transform: uppercase;
+      }
+
+      .item-info .item-titulo {
+         width: 90px;
+         font-weight: 900;
+      }
+
+      .item-info p.infoVariable {
+         margin-left: 8px;
+         width: 300px;
+      }
+
+      .seccion {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+      }
+
+      .listaProductos {
+         
+         display: flex;
+         flex-wrap: wrap;
+      }
+
+      .titulo-listaProductos {
+         margin: 0px;
+         font-weight: 900;
+         color: #d2010d;
+         text-transform: uppercase;
+         text-align: center;
+      }
+
+      .productos {
+         width: 93%;
+         height: min-content;
+         margin: 4px;
+         padding: 8px;
+         display: flex;
+         align-items: center;
+         border: 2px solid #eeeeee;
+         border-radius: 8px;
+      }
+
+      .productos tr td:nth-child(1){
+         width: 30%;
+      }
+
+      .productos tr td:nth-child(2){
+         width: 70%;
+      }
+
+      .productos .imagen-productos {
+         width: 100%;
+      }
+
+      .productos .imagen-productos img.imagenProducto {
+         width: 100%;
+      }
+
+      .productos .informacion-productos {
+         width: 100%;
+      }
+
+      .productos .informacion-productos .titulo-informacion {
+         margin: 0px 0px 8px;
+         font-size: 15px;
+         font-weight: 900;
+         color: #d2010d;
+         text-transform: uppercase;
+         text-align: left;
+      }
+
+      .productos .informacion-productos .descripcion-informacion {
+         margin: 0px;
+         font-size: 10px;
+         text-align: justify;
+      }
+
+      .recomendaciones {
+         margin: 0;
+         padding: 8px 16px;
+         border: 2px solid #eeeeee;
+         border-radius: 8px;
+      }
+
+      .recomendaciones h3.titulo-recomendaciones {
+         margin: 0;
+         font-size: 15px;
+         font-weight: 900;
+         color: #d2010d;
+         text-transform: uppercase;
+         text-align: left;
+      }
+
+      .recomendaciones p.texto-recomendaciones {
+         margin: 0;
+         font-size: 11px;
+         text-align: justify;
+      }
+
+      .footer {
+         width: 100%;
+         position: absolute;
+         bottom: 10px;
+      }
+
+      .seccionDoctor {
+         width: 50%;
+      }
+
+      .seccionDoctor .seccion-imagenes {
+         display: flex;
+      }
+
+      .seccionDoctor .firma-doctor,
+      .seccionDoctor .sello-doctor {
+        height: 70px;
+      }
+
+      .seccionDoctor .firma-doctor img,
+      .seccionDoctor .sello-doctor img {
+         width: 100%;
+      }
+
+      .seccionDoctor .separador-doctor {
+         width: 100%;
+      }
+
+      .seccionDoctor .nombre-doctor {
+         margin: 0px;
+         font-weight: 900;
+      }
+
+      .seccionDoctor .cedula-doctor {
+         margin: 0px;
+         font-size: 10px;
+         font-weight: 100;
+      }
+
+      .sugerencia {
+         width: 100%;
+      }
+
+      .sugerencia p {
+         width: 100%;
+         margin: 0px;
+         font-size: 10px;
+         text-align: center;
+      }
+   </style>
+</head>
+
+<body>
+   <h1 class="titulo">Prescripción Odontológica</h1>
+   <hr>
+   <div>
+      <div class="seccionQR">
+         <h3>CÓDIGO QR</h3>
+         <img src="{{QR_INFORMATION}}" />
+      </div>
+      <div class="">
+         <!-- informacionDatos -->
+         <table>
+            <tbody>
+               <tr class="item-info">
+                  <td>
+                     <p class="item-titulo">Fecha:</p>
+                  </td>
+                  <td>
+                     <p class="infoVariable">{{FECHA_ACTUAL}}</p>
+                  </td>
+               </tr>
+               <tr class="item-info">
+                  <td>
+                     <p class="item-titulo">NOMBRE:</p>
+                  </td>
+                  <td>
+                     <p class="infoVariable">{{NOMBRE_PACIENTE}} {{APELLIDO_PACIENTE}}</p>
+                  </td>
+               </tr>
+               <tr class="item-info">
+                  <td>
+                     <p class="item-titulo">CÉDULA:</p>
+                  </td>
+                  <td>
+                     <p class="infoVariable">{{CEDULA_PACIENTE}}</p>
+                  </td>
+               </tr>
+               <tr class="item-info">
+                  <td>
+                     <p class="item-titulo">Doctor(A):</p>
+                  </td>
+                  <td>
+                     <p class="infoVariable">{{NOMBRE_DOCTOR}}</p>
+                  </td>
+               </tr>
+               <tr class="item-info">
+                  <td>
+                     <p class="item-titulo">TELÉFONO:</p>
+                  </td>
+                  <td>
+                     <p class="infoVariable">{{TELEFONO_DOCTOR}}</p>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+
+      </div>
+   </div>
+
+   <hr>
+
+   <div class='seccion'>
+      <h3 class="titulo-listaProductos">PRODUCTOS</h3>
+      <div class='listaProductos'>
+
+         <table>
+            <tbody>
+               <tr>
+                  <td>
+                     {{PRODUCTOS}}
+                  </td>
+                  <td>
+                     <div class="productos">
+                        <table>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="imagen-productos">
+                                       <img class="imagenProducto"
+                                          src="https://exitocol.vtexassets.com/arquivos/ids/13089180-1200-auto?v=637896231214870000&width=1200&height=auto&aspect=true" />
+                                    </div>
+                                 </td>
+                                 <td>
+                                    <div class="informacion-productos">
+                                       <h3 class="titulo-informacion">título</h3>
+                                       <p class="descripcion-informacion">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem doloremque consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum veniam neque asperiores iusto omnis enim fuga eligendi?</p>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class="productos">
+                        <table>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="imagen-productos">
+                                       <img class="imagenProducto"
+                                          src="https://exitocol.vtexassets.com/arquivos/ids/13089180-1200-auto?v=637896231214870000&width=1200&height=auto&aspect=true" />
+                                    </div>
+                                 </td>
+                                 <td>
+                                    <div class="informacion-productos">
+                                       <h3 class="titulo-informacion">título</h3>
+                                       <p class="descripcion-informacion">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem doloremque consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum veniam neque asperiores iusto omnis enim fuga eligendi?</p>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </td>
+                  <td>
+                     <div class="productos">
+                        <table>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="imagen-productos">
+                                       <img class="imagenProducto"
+                                          src="https://exitocol.vtexassets.com/arquivos/ids/13089180-1200-auto?v=637896231214870000&width=1200&height=auto&aspect=true" />
+                                    </div>
+                                 </td>
+                                 <td>
+                                    <div class="informacion-productos">
+                                       <h3 class="titulo-informacion">título</h3>
+                                       <p class="descripcion-informacion">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem doloremque consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum veniam neque asperiores iusto omnis enim fuga eligendi?</p>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class="productos">
+                        <table>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="imagen-productos">
+                                       <img class="imagenProducto"
+                                          src="https://exitocol.vtexassets.com/arquivos/ids/13089180-1200-auto?v=637896231214870000&width=1200&height=auto&aspect=true" />
+                                    </div>
+                                 </td>
+                                 <td>
+                                    <div class="informacion-productos">
+                                       <h3 class="titulo-informacion">título</h3>
+                                       <p class="descripcion-informacion">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem doloremque consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum veniam neque asperiores iusto omnis enim fuga eligendi?</p>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </td>
+                  <td>
+                     <div class="productos">
+                        <table>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="imagen-productos">
+                                       <img class="imagenProducto"
+                                          src="https://exitocol.vtexassets.com/arquivos/ids/13089180-1200-auto?v=637896231214870000&width=1200&height=auto&aspect=true" />
+                                    </div>
+                                 </td>
+                                 <td>
+                                    <div class="informacion-productos">
+                                       <h3 class="titulo-informacion">título</h3>
+                                       <p class="descripcion-informacion">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem doloremque consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum veniam neque asperiores iusto omnis enim fuga eligendi?</p>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+
+   <hr>
+   <div class="recomendaciones">
+      <h3 class='titulo-recomendaciones'>RECOMENDACIONES ADICIONALES</h3>
+      <p class='texto-recomendaciones'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum asperiores iusto omnis enim fuga eligendi? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum asperiores iusto omnis enim fuga eligendi? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem consequatur hic officia a optio, atque veritatis voluptatum, cum, exercitationem totam ipsum asperiores iusto omnis enim fuga eligendi?</p>
+   </div>
+
+   <div class='footer'>
+      <div class='seccionDoctor'>
+         <div class='seccion-imagenes'>
+            <table>
+               <tr>
+                  <td>
+                     <img class='firma-doctor' src="https://www.doctorpax.es/blog/wp-content/uploads/2018/07/486px-Thomas_Jefferson_Signature.svg_.png" />
+                  </td>
+                  <td>
+                     <img class='sello-doctor' src="https://comprapromocionales.com/wp-content/uploads/2020/02/SELLO-4912-PROF.jpg" />
+                  </td>
+               </tr>
+            </table>
+         </div>
+         <hr class="separador-doctor">
+         <p class="nombre-doctor">Dr(a).: {{NOMBRE_DOCTOR}}</p>
+         <p class="cedula-doctor">C.C.: {{CEDULA_DOCTOR}}</p>
+      </div>
+      <br />
+      <div class='sugerencia'>
+         <p>Encuentre los productos en</p>
+         <p>Drogas la Rebaja, Farmatodo, Droguerías Alemana, Cruz Verde, Farmacias Pasteur, Locatel</p>
+      </div>
+   </div>
+
+</body>
+
+</html>
