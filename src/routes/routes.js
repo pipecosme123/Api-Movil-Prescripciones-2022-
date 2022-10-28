@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('file-system');
+const path = require('path');
 
 const pool = require('../database/conexion_db.js');
 const createPDF = require('../controller/html_pdf');
@@ -15,11 +16,6 @@ app.use(express.json());
 app.get('/', (req, res) => {
 
    res.send(`Descargado 558855544877`)
-});
-
-app.get('/img', (req, res) => {
-
-   createPDF()
 });
 
 app.get('/get/prescriocion/:id_prescripcion', (req, res) => {
@@ -42,14 +38,6 @@ app.get('/get/prescriocion/:id_prescripcion', (req, res) => {
    })
 });
 
-app.get('/files/:id', async (req, res) => {
-
-   const { id } = req.params;
-   const file = `${__dirname}/src/uploads/${id}`;
-   res.download(file);
-   // res.send(`Descargado ${file}`)
-});
-
 app.post('/addPrescripcion', async (req, res) => {
 
    const {
@@ -63,7 +51,8 @@ app.post('/addPrescripcion', async (req, res) => {
 
    const query_addPrescripcion = 'CALL add_prescripcion(?,?,?,?,?);';
    const query_addProductos = 'INSERT INTO lista_productos (id_prescripcion, id_producto_selecionado) VALUES (?,?);';
-   const query_prescripcion_pdf = 'SELECT * FROM vista_prescripcion WHERE id_prescirpciones = ?;'
+   const query_data_prescripcion = 'SELECT * FROM vista_prescripcion WHERE id_prescirpciones = ?;'
+   const query_data_lista_productos = 'SELECT * FROM vista_lista_productos WHERE id_prescirpciones = ?;'
 
    let resultadoAPI = await new Promise((resolve) => {
 
@@ -88,19 +77,30 @@ app.post('/addPrescripcion', async (req, res) => {
          })
 
          let data_prescripcion = await new Promise((resolve) => {
-            connection.query(query_prescripcion_pdf, [id_prescripcion], (error, results, fields) => {
+            connection.query(query_data_prescripcion, [id_prescripcion], (error, results, fields) => {
                if (error) throw error;
                resolve(results[0]);
             })
          });
 
-         resolve(data_prescripcion);
+         let data_list_productos = await new Promise((resolve) => {
+            connection.query(query_data_lista_productos, [id_prescripcion], (error, results, fields) => {
+               if (error) throw error;
+               resolve(results[0]);
+            })
+         });
+
+         resolve({
+            data: data_prescripcion,
+            productos: data_list_productos
+         });
 
          connection.release();
 
       });
    })
 
+   // let htmlPdf = await createPDF(req.body);
    let htmlPdf = await createPDF(resultadoAPI);
 
    let valor = await isExist(htmlPdf);

@@ -3,7 +3,7 @@ const fs = require("file-system");
 const isExist = (directionFile) => {
 
    return new Promise((resolve) => {
-      fs.access(`./src/uploads/${directionFile}`, fs.constants.F_OK, (err) => {
+      fs.access(`./src/uploads/pdf/${directionFile}`, fs.constants.F_OK, (err) => {
 
          console.log(directionFile);
          if (err) {

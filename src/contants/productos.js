@@ -1,4 +1,4 @@
-export const Productos= [
+export const Productos = [
    {
       "id": 0,
       "name": "cepillo colgate ultra soft",
