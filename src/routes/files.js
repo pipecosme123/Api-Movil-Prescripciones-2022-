@@ -2,9 +2,7 @@ const express = require('express');
 const fs = require('file-system');
 const path = require('path');
 const multer = require('multer');
-let imagemin = import("imagemin")
-// const imageminJpegtran = require('imagemin-jpegtran');
-// const pngToJpeg = require('png-to-jpeg');
+const sharp = require("sharp");
 
 const pool = require('../database/conexion_db.js');
 
@@ -26,12 +24,6 @@ const storage = multer.diskStorage({
       }
    },
    filename: function (req, file, cb) {
-      let typeImg = file.originalname.split('_')[0];
-      if (typeImg === 'sign') {
-         cb(null, path.join(__dirname, '..', 'uploads/sign'))
-      } else {
-         cb(null, path.join(__dirname, '..', 'uploads/stamp'))
-      }
       cb(null, `${file.originalname}`)
    }
 })
@@ -41,13 +33,30 @@ const upload = multer({ storage: storage })
 // Comprimir Imagenes
 const comprimirImagenes = async (url_img) => {
 
-   await imagemin(url_img, {
-      destination: path.join(__dirname, '..', '/uploads/upload'),
-      plugins: [
-         imageminJpegtran(),
-         pngToJpeg({ quality: 90 })
-      ]
+   let filename_compress = url_img.split('.')[0] + "_compress.jpg";
+   let filename_original = url_img.split('.')[0] + ".jpg";
+
+   try {
+      await sharp(url_img)
+         .flatten({ background: { r: 255, g: 255, b: 255, alpha: 1 } })
+         .toFormat("jpeg", { mozjpeg: true, quality: 20 })
+         .toFile(filename_compress);
+   } catch (error) {
+      console.log(error);
+   }
+
+   fs.unlinkSync(url_img, (err) => {
+      if (err) {
+         res.status(500).send('No se pudo eliminar')
+         throw err;
+      } else {
+         console.log('Eliminado');
+      };
    });
+
+   fs.renameSync(filename_compress, filename_original);
+
+   return filename_original;
 }
 
 
@@ -64,43 +73,52 @@ app.get('/img/:type/:name', (req, res) => {
 });
 
 // Descargar los archivos .pdf
-app.get('/files/:id', async (req, res) => {
+app.get('/download/:id', async (req, res) => {
    const { id } = req.params;
-   const file = `${__dirname}/src/uploads/${id}`;
+   const file = `${__dirname}/src/uploads/pdf/${id}`;
    res.download(file);
 });
 
 // Cargar las imagenes de las firmas y sellos de los odontólogos
-app.post('/files', upload.array('imagenes'), (req, res) => {
+app.put('/images/:id', upload.array('imagenes'), async (req, res) => {
 
-   // fs.renameSync(req.files[0].path, "req.files[0].path" + '.' + req.files[0].mimetype.split('/')[1]);
-   // fs.renameSync(req.files[1].path, "req.files[1].path" + '.' + req.files[1].mimetype.split('/')[1]);
-   // const { cedula } = req.body;
-   // const img_sign = req.files[0];
-   // const img_stamp = req.files[1];
+   const { id } = req.params;
 
-   // fs.renameSync(img_sign.path, `${'cedula'}-sign.${img_sign.mimetype.split('/')[1]}`);
-   // fs.renameSync(img_stamp.path, `${'cedula'}-sign.${img_stamp.mimetype.split('/')[1]}`);
+   let filename_sign = await comprimirImagenes(req.files[0].path);
+   let filename_stamp = await comprimirImagenes(req.files[1].path);
 
+   let sing = filename_sign.split('\\')[filename_sign.split('\\').length - 1];
+   let stamp = filename_stamp.split('\\')[filename_stamp.split('\\').length - 1];
 
-   // comprimirImagenes(img_sign);
-   // comprimirImagenes(img_stamp);
+   let query = "UPDATE odontologos SET img_firmas_odontologos=?, img_sellos_odontologos=? WHERE (id_odontologos=?);";
 
-   res.send(req.files[0].path);
+   pool.getConnection((err, connection) => {
 
-   // let newPathSign = path.join(__dirname, '..', '/uploads/sign')
-   // let newPathStamp = path.join(__dirname, '..', '/uploads/stamp')
+      if (err) throw err;
 
-   // fs.renameSync(img_sign.path, `${newPathSign}/${cedula}-sign.${img_sign.mimetype.split('/')[1]}`);
+      connection.query(query, [sing, stamp, id], (error, results, fields) => {
 
-   // fs.rename(oldPath, newPath, function (err) {
-   //    if (err) throw err
-   //    console.log('Successfully renamed - AKA moved!')
-   // })
+         res.status(200).send("Cargadas")
+         connection.release();
 
-   // const { id } = req.params;
-   // const file = `${__dirname}/src/uploads/${id}`;
-   // res.download(file);
+         if (error) throw error;
+      });
+   });
+
+});
+
+// Eliminar los archivos pdf
+app.delete('/delete/:id', async (req, res) => {
+
+   const { id } = req.params;
+   const file = path.join(__dirname, '..', `/uploads/pdf/${id}`)
+
+   fs.unlinkSync(file, (err) => {
+      // if (err) throw err
+   });
+
+   res.status(200).send('Eliminado');
+
 });
 
 module.exports = app;
